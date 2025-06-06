@@ -19,7 +19,6 @@ function atualizarTeclado(letra, classe) {
                       document.querySelector(`#keyboard .key[data-key="${letra.toLowerCase()}"]`);
     
     if (keyButton) {
-        // Regra: se já for verde, não muda. Se for amarela, não muda para cinza.
         if (keyButton.classList.contains('correct-key')) {
             return;
         }
@@ -45,7 +44,7 @@ function verificarPalavra() {
         if (palpiteArray[i] === palavraSecretaArray[i]) {
             currentBoxes[i].classList.add('correct');
             atualizarTeclado(palpiteArray[i], 'correct-key');
-            palavraSecretaArray[i] = null; // Marca como usada
+            palavraSecretaArray[i] = null; 
             acertosNaPosicao++;
         }
     }
@@ -58,7 +57,7 @@ function verificarPalavra() {
         if (indexInSecret !== -1) {
             currentBoxes[i].classList.add('present');
             atualizarTeclado(palpiteArray[i], 'present-key');
-            palavraSecretaArray[indexInSecret] = null; // Marca como usada
+            palavraSecretaArray[indexInSecret] = null; 
         } else {
             currentBoxes[i].classList.add('absent');
             atualizarTeclado(palpiteArray[i], 'absent-key');
@@ -78,9 +77,8 @@ function verificarPalavra() {
         tentativaAtual++;
         letraAtual = 0; 
         if (tentativaAtual >= numTentativas) {
-            mostrarMensagem(`Fim de jogo! A palavra era: "${palavraSecreta}"`);
+            mostrarMensagem(`Opss! A palavra era: "${palavraSecreta}"`);
             gameOver = true;
-            // Opcional: Adicionar um botão de "Jogar Novamente"
         } else {
             const nextRow = document.querySelector(`#game-board .row:nth-child(${tentativaAtual + 1})`);
 
@@ -88,7 +86,7 @@ function verificarPalavra() {
             boxes.forEach(box => box.classList.add('active-row'));
 
             const currentRow = document.querySelector(`#game-board .row:nth-child(${tentativaAtual})`);
-            currentRow.classList.remove('active-row'); // Remove destaque da linha atual
+            currentRow.classList.remove('active-row'); 
         }
     }
 }
@@ -106,7 +104,7 @@ function handleKeyPress(event) {
         if (letraAtual === palavraComprimento) {
             verificarPalavra();
         }
-    } else if (key.match(/^[A-Z]$/) && key.length === 1) { // Verifica se é uma única letra
+    } else if (key.match(/^[A-Z]$/) && key.length === 1) { 
         if (letraAtual < palavraComprimento) {
             currentBoxes[letraAtual].textContent = key;
             letraAtual++;
@@ -115,7 +113,7 @@ function handleKeyPress(event) {
 }
 
 function criarTeclado() {
-    keyboard.innerHTML = ''; // Limpa teclado anterior
+    keyboard.innerHTML = ''; 
     const keyboardLayout = [
         ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
         ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'DEL'],
@@ -129,6 +127,7 @@ function criarTeclado() {
             const button = document.createElement('button');
             button.classList.add('key');
             button.textContent = key;
+            button.setAttribute('data-key', key.toUpperCase());
             if (key === 'ENTER') {
                 button.classList.add('large');
             }
@@ -176,6 +175,8 @@ function inicializarJogo(referenciaPalavra = 0) {
     limparTabuleiro();
     criarTabuleiro();
     criarTeclado();
+
+    subtitle.innerHTML = `0/${palavras.length} concluídas`
     document.addEventListener('keydown', handleKeyPress);
 }
 
@@ -188,20 +189,16 @@ function mostrarMensagem(msg) {
 }
 
 function nextWord(){
-    indicePalavraAtual += 1
-    inicializarJogo(indicePalavraAtual);
-    
     messageArea.classList.add('hidden');
     nextButtonArea.classList.add('hidden');
     keyboard.classList.remove('hidden'); 
 
-     subtitle.innerHTML = `${indicePalavraAtual}/${palavras.length} concluídas`
+    indicePalavraAtual += 1
+    inicializarJogo(indicePalavraAtual);
+
+    subtitle.innerHTML = `${indicePalavraAtual}/${palavras.length} concluídas`
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    
     inicializarJogo();
-    document.querySelectorAll('.key').forEach(button => {
-        button.setAttribute('data-key', button.textContent.toUpperCase());
-    });
 });
