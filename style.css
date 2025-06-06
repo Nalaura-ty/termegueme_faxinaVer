@@ -1,7 +1,7 @@
 body {
     font-family: "Lilita One", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-weight: 400;
+    font-style: normal;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,13 +19,19 @@ body {
     border-radius: 8px;
 }
 
+.header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
 .titulo {
     color: #333;
     font-size: 30px;
 }
 
 #game-board {
-    margin: 20px 0;
+    margin: 8px 0;
 }
 
 .row {
@@ -126,17 +132,16 @@ body {
 
 #message-area {
     margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 1.2em;
-    font-weight: bold;
     color: #333;
 }
 
 #next-button{
     padding: 10px 20px;
     font-size: 1em;
-    color: white;
-    background-color: #757335; /* Verde */
-    border: none;
+    color: #333;
+    border: 1px solid #333;
     border-radius: 10px;
     cursor: pointer;
     display: flex;
@@ -144,6 +149,10 @@ body {
 }
 
 #next-button:hover{
-    background-color: #2b6e2d;
+    background-color: #333;
+    color: white;
 }
 
+.hidden {
+    display: none;
+}

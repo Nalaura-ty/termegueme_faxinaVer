@@ -6,11 +6,13 @@ let palavraSecreta = '';
 let tentativaAtual = 0;
 let letraAtual = 0;
 let gameOver = false;
-let palavraAtual = 0; 
+let indicePalavraAtual = 0; 
 
 const gameBoard = document.getElementById('game-board');
 const keyboard = document.getElementById('keyboard');
 const messageArea = document.getElementById('message-area');
+const nextButtonArea = document.getElementById('next-button-area');
+const subtitle = document.getElementById('subtitle')
 
 function atualizarTeclado(letra, classe) {
     const keyButton = document.querySelector(`#keyboard .key[data-key="${letra}"]`) ||
@@ -34,7 +36,6 @@ function verificarPalavra() {
     currentBoxes.forEach(box => {
         palpite += box.textContent;
     });
-    console.log(`Palpite: ${palpite}`);
 
     let palavraSecretaArray = palavraSecreta.split('');
     let palpiteArray = palpite.split('');
@@ -65,9 +66,11 @@ function verificarPalavra() {
     }
     
     if (acertosNaPosicao === palavraComprimento) {
-        mostrarMensagem(`Parabéns! Você acertou a palavra "${palavraSecreta}"!`);
+        let texto = `Parabéns, você acertou a palavra!`
+        if ((indicePalavraAtual + 1) == palavras.length ) texto = "Seja bem vindo à EQUIPE DO CANTO!"
+        mostrarMensagem(texto);
+
         gameOver = true;
-        // Opcional: Adicionar um botão de "Jogar Novamente"
     } else {
         tentativaAtual++;
         letraAtual = 0; 
@@ -77,7 +80,7 @@ function verificarPalavra() {
             // Opcional: Adicionar um botão de "Jogar Novamente"
         } else {
             const nextRow = document.querySelector(`#game-board .row:nth-child(${tentativaAtual + 1})`);
-            // as letras dentro da linha devem ficar com active-row 
+
             const boxes = nextRow.querySelectorAll('.letter-box');
             boxes.forEach(box => box.classList.add('active-row'));
 
@@ -166,7 +169,9 @@ function inicializarJogo(referenciaPalavra = 0) {
     tentativaAtual = 0;
     letraAtual = 0;
     gameOver = false;
+    
     messageArea.textContent = '';
+    
     limparTabuleiro();
     criarTabuleiro();
     criarTeclado();
@@ -174,8 +179,22 @@ function inicializarJogo(referenciaPalavra = 0) {
 }
 
 function mostrarMensagem(msg) {
+    messageArea.classList.remove('hidden');
+    if((indicePalavraAtual + 1) != palavras.length) nextButtonArea.classList.remove('hidden');
+    keyboard.classList.add('hidden'); 
+
     messageArea.textContent = msg;
-    // messageArea.ins
+}
+
+function nextWord(){
+    indicePalavraAtual += 1
+    inicializarJogo(indicePalavraAtual);
+    
+    messageArea.classList.add('hidden');
+    nextButtonArea.classList.add('hidden');
+    keyboard.classList.remove('hidden'); 
+
+     subtitle.innerHTML = `${indicePalavraAtual}/${palavras.length} concluídas`
 }
 
 document.addEventListener('DOMContentLoaded', () => {

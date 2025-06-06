@@ -12,20 +12,29 @@
     </head>
     <body>
         <div class="container">
-            <div class="titulo">TERGUE-ME</div>
+            <div class="header">
+                <div class="titulo">TERGUE-ME</div>
+                <div id="subtitle">
+                    0/4 concluídas
+                </div>
+            </div>
             
             <div id="game-board">
             </div>
 
-            <div id="message-area">
+            <div id="message-area" class="hidden">
             </div>
 
-            <!-- <div class="next-button">
-                <button id="next-button" class="button">
+            <div class="next-button hidden" id="next-button-area">
+                <button 
+                    id="next-button" 
+                    class="button"
+                    onclick="nextWord()"
+                >
                     <div>Próxima palavra</div>
                     <i class="fa-solid fa-arrow-right" style="margin-right: 3px;"></i>
                 </button>
-            </div> -->
+            </div>
             
             <div id="keyboard">
             </div>
