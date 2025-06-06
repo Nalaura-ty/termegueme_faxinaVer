@@ -92,7 +92,7 @@ function handleKeyPress(event) {
     const key = event.key.toUpperCase();
     const currentBoxes = document.querySelectorAll(`#game-board .row:nth-child(${tentativaAtual + 1}) .letter-box`);
     
-    if (key === 'BACKSPACE' || key === 'P' && event.ctrlKey) { // Ctrl+P para backspace no teclado
+    if (key === 'DEL' || key === 'P' && event.ctrlKey) { // Ctrl+P para backspace no teclado
         if (letraAtual > 0) {
             letraAtual--;
             currentBoxes[letraAtual].textContent = '';
@@ -115,7 +115,7 @@ function criarTeclado() {
     keyboard.innerHTML = ''; // Limpa teclado anterior
     const keyboardLayout = [
         ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'DEL'],
         ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'ENTER']
     ];
 
@@ -128,6 +128,9 @@ function criarTeclado() {
             button.textContent = key;
             if (key === 'ENTER') {
                 button.classList.add('large');
+            }
+            if (key === 'DEL') {
+                button.innerHTML = '<i class="fa-solid fa-delete-left"></i>';
             }
             button.addEventListener('click', () => handleKeyPress({ key: key }));
             rowDiv.appendChild(button);
