@@ -1,0 +1,134 @@
+body {
+    font-family: "Lilita One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.titulo {
+    color: #333;
+    font-size: 30px;
+}
+
+#game-board {
+    margin: 20px 0;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.letter-box {
+    width: 50px; /* Ajuste o tamanho conforme necessário */
+    height: 50px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    font-weight: bold;
+    margin: 2px;
+    text-transform: uppercase;
+    background-color: #e0e0e0;
+}
+
+/* Cores de feedback */
+.letter-box.correct {
+    background-color: #6aaa64; /* Verde */
+    color: white;
+    border-color: #6aaa64;
+}
+
+.letter-box.present {
+    background-color: #c9b458; /* Amarelo */
+    color: white;
+    border-color: #c9b458;
+}
+
+.letter-box.absent {
+    background-color: #787c7e; /* Cinza */
+    color: white;
+    border-color: #787c7e;
+}
+
+#keyboard {
+    margin-top: 20px;
+    width: 30%;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.key {
+    background-color: #d3d6da;
+    border: none;
+    width: 40px; /* Ajuste o tamanho conforme necessário */
+    height: 40px;
+    padding: 10px;
+    margin: 3px;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    flex-grow: 1; /* Para teclas terem largura flexível */
+}
+
+.key:hover {
+    background-color: #c1c4c7;
+}
+
+.key:active {
+    background-color: #b0b3b6;
+}
+
+/* Cores do teclado após o uso */
+.key.correct-key {
+    background-color: #6aaa64;
+    color: white;
+}
+
+.key.present-key {
+    background-color: #c9b458;
+    color: white;
+}
+
+.key.absent-key {
+    background-color: #787c7e;
+    color: white;
+}
+
+.key.large {
+    width: 80px;
+}
+
+.active-row {
+    background-color: #f6f5f5;
+}
+
+#message-area {
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
