@@ -67,7 +67,10 @@ function verificarPalavra() {
     
     if (acertosNaPosicao === palavraComprimento) {
         let texto = `Parabéns, você acertou a palavra!`
-        if ((indicePalavraAtual + 1) == palavras.length ) texto = "Seja bem vindo à EQUIPE DO CANTO!"
+        if ((indicePalavraAtual + 1) == palavras.length ) {
+            texto = "Seja bem vindo à EQUIPE DO CANTO!"
+            subtitle.innerHTML = `${palavras.length}/${palavras.length} concluídas`
+        }
         mostrarMensagem(texto);
 
         gameOver = true;
@@ -102,8 +105,6 @@ function handleKeyPress(event) {
     } else if (key === 'ENTER') {
         if (letraAtual === palavraComprimento) {
             verificarPalavra();
-        } else {
-            mostrarMensagem('A palavra não tem 5 letras!');
         }
     } else if (key.match(/^[A-Z]$/) && key.length === 1) { // Verifica se é uma única letra
         if (letraAtual < palavraComprimento) {
