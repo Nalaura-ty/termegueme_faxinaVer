@@ -130,3 +130,20 @@ body {
     font-weight: bold;
     color: #333;
 }
+
+#next-button{
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #757335; /* Verde */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+}
+
+#next-button:hover{
+    background-color: #2b6e2d;
+}
+

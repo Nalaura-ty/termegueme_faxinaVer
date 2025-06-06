@@ -6,6 +6,7 @@ let palavraSecreta = '';
 let tentativaAtual = 0;
 let letraAtual = 0;
 let gameOver = false;
+let palavraAtual = 0; 
 
 const gameBoard = document.getElementById('game-board');
 const keyboard = document.getElementById('keyboard');
@@ -92,11 +93,9 @@ function handleKeyPress(event) {
     const key = event.key.toUpperCase();
     const currentBoxes = document.querySelectorAll(`#game-board .row:nth-child(${tentativaAtual + 1}) .letter-box`);
     
-    if (key === 'DEL' || key === 'P' && event.ctrlKey) { // Ctrl+P para backspace no teclado
-        if (letraAtual > 0) {
-            letraAtual--;
-            currentBoxes[letraAtual].textContent = '';
-        }
+    if (key === 'DEL' || key === 'P' && event.ctrlKey || key == 'BACKSPACE' && letraAtual > 0) { 
+        letraAtual--;
+        currentBoxes[letraAtual].textContent = '';
     } else if (key === 'ENTER') {
         if (letraAtual === palavraComprimento) {
             verificarPalavra();
@@ -162,8 +161,8 @@ function limparTabuleiro() {
     });
 }
 
-function inicializarJogo() {
-    palavraSecreta = palavras[0];
+function inicializarJogo(referenciaPalavra = 0) {
+    palavraSecreta = palavras[referenciaPalavra];
     tentativaAtual = 0;
     letraAtual = 0;
     gameOver = false;
@@ -176,6 +175,7 @@ function inicializarJogo() {
 
 function mostrarMensagem(msg) {
     messageArea.textContent = msg;
+    // messageArea.ins
 }
 
 document.addEventListener('DOMContentLoaded', () => {
