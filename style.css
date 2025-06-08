@@ -8,6 +8,7 @@ body {
     min-height: 100vh;
     background-color: #f0f0f0;
     margin: 0;
+    touch-action: manipulation;
 }
 
 .container {
@@ -155,4 +156,27 @@ body {
 
 .hidden {
     display: none;
+}
+
+.letter-pop {
+    animation: pop 0.15s;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.letter-flip {
+    animation: flip 0.5s forwards;
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateX(0deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
 }

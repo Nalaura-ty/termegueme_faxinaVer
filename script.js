@@ -40,55 +40,56 @@ function verificarPalavra() {
     let palpiteArray = palpite.split('');
     let acertosNaPosicao = 0;
 
-    for (let i = 0; i < palavraComprimento; i++) {
-        if (palpiteArray[i] === palavraSecretaArray[i]) {
-            currentBoxes[i].classList.add('correct');
-            atualizarTeclado(palpiteArray[i], 'correct-key');
-            palavraSecretaArray[i] = null; 
-            acertosNaPosicao++;
-        }
-    }
+    currentBoxes.forEach((box, i) => {
+        setTimeout(() => {
+            box.classList.add('letter-flip');
+            box.addEventListener('animationend', function handler() {
+                box.classList.remove('letter-flip');
 
-    for (let i = 0; i < palavraComprimento; i++) {
-        if (currentBoxes[i].classList.contains('correct')) continue;
-        
-        const indexInSecret = palavraSecretaArray.indexOf(palpiteArray[i]);
-       
-        if (indexInSecret !== -1) {
-            currentBoxes[i].classList.add('present');
-            atualizarTeclado(palpiteArray[i], 'present-key');
-            palavraSecretaArray[indexInSecret] = null; 
-        } else {
-            currentBoxes[i].classList.add('absent');
-            atualizarTeclado(palpiteArray[i], 'absent-key');
-        }
-    }
-    
-    if (acertosNaPosicao === palavraComprimento) {
-        let texto = `Parabéns, você acertou a palavra!`
-        if ((indicePalavraAtual + 1) == palavras.length ) {
-            texto = "Seja bem vindo à EQUIPE DO CANTO!"
-            subtitle.innerHTML = `${palavras.length}/${palavras.length} concluídas`
-        }
-        mostrarMensagem(texto);
+                if (palpiteArray[i] === palavraSecretaArray[i]) {
+                    box.classList.add('correct');
+                    atualizarTeclado(palpiteArray[i], 'correct-key');
+                    palavraSecretaArray[i] = null;
+                    acertosNaPosicao++;
+                } else if (palavraSecretaArray.includes(palpiteArray[i])) {
+                    box.classList.add('present');
+                    atualizarTeclado(palpiteArray[i], 'present-key');
+                    palavraSecretaArray[palavraSecretaArray.indexOf(palpiteArray[i])] = null;
+                } else {
+                    box.classList.add('absent');
+                    atualizarTeclado(palpiteArray[i], 'absent-key');
+                }
+                box.removeEventListener('animationend', handler);
 
-        gameOver = true;
-    } else {
-        tentativaAtual++;
-        letraAtual = 0; 
-        if (tentativaAtual >= numTentativas) {
-            mostrarMensagem(`Opss! A palavra era: "${palavraSecreta}"`);
-            gameOver = true;
-        } else {
-            const nextRow = document.querySelector(`#game-board .row:nth-child(${tentativaAtual + 1})`);
-
-            const boxes = nextRow.querySelectorAll('.letter-box');
-            boxes.forEach(box => box.classList.add('active-row'));
-
-            const currentRow = document.querySelector(`#game-board .row:nth-child(${tentativaAtual})`);
-            currentRow.classList.remove('active-row'); 
-        }
-    }
+                if (i === palavraComprimento - 1) {
+                    setTimeout(() => {
+                        if (acertosNaPosicao === palavraComprimento) {
+                            let texto = `Parabéns, você acertou a palavra!`
+                            if ((indicePalavraAtual + 1) == palavras.length ) {
+                                texto = "Seja bem vindo à EQUIPE DO CANTO!"
+                                subtitle.innerHTML = `${palavras.length}/${palavras.length} concluídas`
+                            }
+                            mostrarMensagem(texto);
+                            gameOver = true;
+                        } else {
+                            tentativaAtual++;
+                            letraAtual = 0; 
+                            if (tentativaAtual >= numTentativas) {
+                                mostrarMensagem(`Opss! A palavra era: "${palavraSecreta}"`);
+                                gameOver = true;
+                            } else {
+                                const nextRow = document.querySelector(`#game-board .row:nth-child(${tentativaAtual + 1})`);
+                                const boxes = nextRow.querySelectorAll('.letter-box');
+                                boxes.forEach(box => box.classList.add('active-row'));
+                                const currentRow = document.querySelector(`#game-board .row:nth-child(${tentativaAtual})`);
+                                currentRow.classList.remove('active-row'); 
+                            }
+                        }
+                    }, 100);
+                }
+            });
+        }, i * 100);
+    });
 }
 
 function handleKeyPress(event) {
@@ -105,8 +106,15 @@ function handleKeyPress(event) {
             verificarPalavra();
         }
     } else if (key.match(/^[A-Z]$/) && key.length === 1) { 
-        if (letraAtual < palavraComprimento) {
+        if (letraAtual < palavraComprimento && currentBoxes[letraAtual]) {
             currentBoxes[letraAtual].textContent = key;
+
+            currentBoxes[letraAtual].classList.add('letter-pop');
+            currentBoxes[letraAtual].addEventListener('animationend', function handler() {
+                currentBoxes[letraAtual].classList.remove('letter-pop');
+                currentBoxes[letraAtual].removeEventListener('animationend', handler);
+            });
+
             letraAtual++;
         }
     }
