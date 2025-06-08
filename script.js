@@ -99,8 +99,11 @@ function handleKeyPress(event) {
     const currentBoxes = document.querySelectorAll(`#game-board .row:nth-child(${tentativaAtual + 1}) .letter-box`);
     
     if (key === 'DEL' || key === 'P' && event.ctrlKey || key == 'BACKSPACE' && letraAtual > 0) { 
-        letraAtual--;
-        currentBoxes[letraAtual].textContent = '';
+        if (letraAtual > 0) {
+            letraAtual--;
+            currentBoxes[letraAtual].textContent = '';
+            currentBoxes[letraAtual].classList.remove('letter-pop');
+        }
     } else if (key === 'ENTER') {
         if (letraAtual === palavraComprimento) {
             verificarPalavra();
