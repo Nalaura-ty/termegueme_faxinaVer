@@ -98,16 +98,12 @@ function handleKeyPress(event) {
     const key = event.key.toUpperCase();
     const currentBoxes = document.querySelectorAll(`#game-board .row:nth-child(${tentativaAtual + 1}) .letter-box`);
     
-    if (key === 'DEL' || key === 'P' && event.ctrlKey || key == 'BACKSPACE' && letraAtual > 0) { 
-        if (letraAtual > 0) {
-            letraAtual--;
-            currentBoxes[letraAtual].textContent = '';
-            currentBoxes[letraAtual].classList.remove('letter-pop');
-        }
-    } else if (key === 'ENTER') {
-        if (letraAtual === palavraComprimento) {
-            verificarPalavra();
-        }
+    if ((key === 'DEL' || key === 'P' && event.ctrlKey || key == 'BACKSPACE') && letraAtual > 0) { 
+        letraAtual--;
+        currentBoxes[letraAtual].textContent = '';
+        currentBoxes[letraAtual].classList.remove('letter-pop');
+    } else if (key === 'ENTER' && letraAtual === palavraComprimento) {
+        verificarPalavra();
     } else if (key.match(/^[A-Z]$/) && key.length === 1) { 
         if (letraAtual < palavraComprimento && currentBoxes[letraAtual]) {
             currentBoxes[letraAtual].textContent = key;

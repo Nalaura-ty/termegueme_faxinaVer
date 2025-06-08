@@ -169,7 +169,7 @@ body {
 }
 
 .letter-flip {
-    animation: flip 0.5s forwards;
+    animation: flip 0.1s forwards;
 }
 
 @keyframes flip {
