@@ -1,4 +1,4 @@
-const palavras = ["VOZES", "RITMO", "NOTAS", "CANTO"]
+const palavras = [ "RITMO", "NOTAS", "CANTO"]
 const numTentativas = 6;
 const palavraComprimento = 5;
 
