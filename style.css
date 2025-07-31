@@ -6,9 +6,66 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background: linear-gradient(135deg, #e8f4fd 0%, #b3e5fc 25%, #4fc3f7 50%, #29b6f6 75%, #0288d1 100%);
+    background-attachment: fixed;
     margin: 0;
     touch-action: manipulation;
+    position: relative;
+}
+
+/* Adicionar elementos decorativos de bolhas de sabão */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.7) 8px, transparent 8px),
+        radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.5) 4px, transparent 4px),
+        radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.6) 6px, transparent 6px),
+        radial-gradient(circle at 60% 10%, rgba(255, 255, 255, 0.8) 10px, transparent 10px),
+        radial-gradient(circle at 90% 60%, rgba(255, 255, 255, 0.4) 3px, transparent 3px),
+        radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.65) 7px, transparent 7px),
+        radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.5) 5px, transparent 5px),
+        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.6) 9px, transparent 9px),
+        radial-gradient(circle at 15% 60%, rgba(255, 255, 255, 0.4) 4px, transparent 4px),
+        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.7) 6px, transparent 6px);
+    background-size: 180px 180px, 120px 120px, 250px 250px, 200px 200px, 140px 140px, 190px 190px, 160px 160px, 220px 220px, 130px 130px, 170px 170px;
+    animation: floating-bubbles 25s infinite linear;
+    pointer-events: none;
+    z-index: -1;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 45% 25%, rgba(255, 255, 255, 0.3) 12px, transparent 12px),
+        radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.4) 5px, transparent 5px),
+        radial-gradient(circle at 75% 45%, rgba(255, 255, 255, 0.5) 8px, transparent 8px),
+        radial-gradient(circle at 55% 85%, rgba(255, 255, 255, 0.35) 6px, transparent 6px),
+        radial-gradient(circle at 5% 35%, rgba(255, 255, 255, 0.45) 7px, transparent 7px),
+        radial-gradient(circle at 95% 75%, rgba(255, 255, 255, 0.4) 4px, transparent 4px);
+    background-size: 300px 300px, 180px 180px, 240px 240px, 200px 200px, 160px 160px, 140px 140px;
+    animation: floating-bubbles-reverse 30s infinite linear;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes floating-bubbles {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-30px) rotate(360deg); }
+}
+
+@keyframes floating-bubbles-reverse {
+    0% { transform: translateY(0px) rotate(360deg); }
+    100% { transform: translateY(-25px) rotate(0deg); }
 }
 
 .container {
@@ -17,7 +74,12 @@ body {
     align-items: center;
     text-align: center;
     width: 100%;
-    border-radius: 8px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 136, 209, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .header {
@@ -26,9 +88,18 @@ body {
     margin-bottom: 20px;
     margin-top: 20px;
 }
+
 .titulo {
-    color: #333;
+    color: #0277bd;
     font-size: 30px;
+    text-shadow: 2px 2px 4px rgba(2, 119, 189, 0.3);
+    margin-bottom: 10px;
+}
+
+#subtitle {
+    color: #0288d1;
+    font-size: 16px;
+    font-weight: normal;
 }
 
 #game-board {
@@ -42,10 +113,10 @@ body {
 }
 
 .letter-box {
-    width: 50px; /* Ajuste o tamanho conforme necessário */
+    width: 50px;
     height: 50px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid #b3e5fc;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,26 +124,38 @@ body {
     font-weight: bold;
     margin: 2px;
     text-transform: uppercase;
-    background-color: #e0e0e0;
+    background: linear-gradient(145deg, #ffffff, #f0f9ff);
+    box-shadow: 0 2px 8px rgba(2, 136, 209, 0.2);
+    transition: all 0.3s ease;
+}
+
+.letter-box.focused {
+    border: 3px solid #29b6f6;
+    background: linear-gradient(145deg, #e1f5fe, #f0f9ff);
+    box-shadow: 0 0 15px rgba(41, 182, 246, 0.5);
+    transform: scale(1.05);
 }
 
 /* Cores de feedback */
 .letter-box.correct {
-    background-color: #6aaa64; /* Verde */
+    background: linear-gradient(145deg, #4caf50, #66bb6a);
     color: white;
-    border-color: #6aaa64;
+    border-color: #4caf50;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
 }
 
 .letter-box.present {
-    background-color: #c9b458; /* Amarelo */
+    background: linear-gradient(145deg, #ff9800, #ffb74d);
     color: white;
-    border-color: #c9b458;
+    border-color: #ff9800;
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
 }
 
 .letter-box.absent {
-    background-color: #787c7e; /* Cinza */
+    background: linear-gradient(145deg, #78909c, #90a4ae);
     color: white;
-    border-color: #787c7e;
+    border-color: #78909c;
+    box-shadow: 0 4px 12px rgba(120, 144, 156, 0.4);
 }
 
 #keyboard {
@@ -87,40 +170,50 @@ body {
 }
 
 .key {
-    background-color: #d3d6da;
-    border: none;
+    background: linear-gradient(145deg, #e1f5fe, #b3e5fc);
+    border: 1px solid #81d4fa;
     padding: 10px;
     margin: 3px;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 1em;
     font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
-    flex-grow: 1; /* Para teclas terem largura flexível */
+    flex-grow: 1;
+    color: #0277bd;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(2, 136, 209, 0.2);
 }
 
 .key:hover {
-    background-color: #c1c4c7;
+    background: linear-gradient(145deg, #b3e5fc, #81d4fa);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(2, 136, 209, 0.3);
 }
 
 .key:active {
-    background-color: #b0b3b6;
+    background: linear-gradient(145deg, #81d4fa, #4fc3f7);
+    transform: translateY(0px);
+    box-shadow: 0 2px 4px rgba(2, 136, 209, 0.4);
 }
 
 /* Cores do teclado após o uso */
 .key.correct-key {
-    background-color: #6aaa64;
+    background: linear-gradient(145deg, #4caf50, #66bb6a);
     color: white;
+    border-color: #4caf50;
 }
 
 .key.present-key {
-    background-color: #c9b458;
+    background: linear-gradient(145deg, #ff9800, #ffb74d);
     color: white;
+    border-color: #ff9800;
 }
 
 .key.absent-key {
-    background-color: #787c7e;
+    background: linear-gradient(145deg, #78909c, #90a4ae);
     color: white;
+    border-color: #78909c;
 }
 
 .key.large {
@@ -128,30 +221,43 @@ body {
 }
 
 .active-row {
-    background-color: #f6f5f5;
+    background: rgba(225, 245, 254, 0.5);
+    border-radius: 8px;
+    padding: 2px;
 }
 
 #message-area {
     margin-top: 20px;
     margin-bottom: 20px;
     font-size: 1.2em;
-    color: #333;
+    color: #0277bd;
+    background: linear-gradient(145deg, #e8f4fd, #f0f9ff);
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid #b3e5fc;
+    box-shadow: 0 4px 12px rgba(2, 136, 209, 0.2);
 }
 
 #next-button{
-    padding: 10px 20px;
+    padding: 12px 24px;
     font-size: 1em;
-    color: #333;
-    border: 1px solid #333;
-    border-radius: 10px;
+    color: #0277bd;
+    background: linear-gradient(145deg, #ffffff, #f0f9ff);
+    border: 2px solid #29b6f6;
+    border-radius: 12px;
     cursor: pointer;
     display: flex;
     gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(2, 136, 209, 0.2);
+    font-weight: bold;
 }
 
 #next-button:hover{
-    background-color: #333;
+    background: linear-gradient(145deg, #29b6f6, #42a5f5);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(2, 136, 209, 0.4);
 }
 
 .hidden {
@@ -178,5 +284,27 @@ body {
     }
     100% {
         transform: rotateX(0deg);
+    }
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .titulo {
+        font-size: 24px;
+    }
+    
+    #keyboard {
+        width: 90%;
+    }
+    
+    .letter-box {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5em;
     }
 }

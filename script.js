@@ -1,4 +1,4 @@
-const palavras = [ "RITMO", "NOTAS", "CANTO"]
+const palavras = [ "LIMPA", "REZAR", "SABAO"]
 const numTentativas = 6;
 const palavraComprimento = 5;
 
@@ -83,6 +83,16 @@ function verificarPalavra() {
                                 boxes.forEach(box => box.classList.add('active-row'));
                                 const currentRow = document.querySelector(`#game-board .row:nth-child(${tentativaAtual})`);
                                 currentRow.classList.remove('active-row'); 
+                                
+                                // Define foco na primeira caixa da nova linha
+                                setTimeout(() => {
+                                    const newFirstBox = document.querySelector(`#game-board .row:nth-child(${tentativaAtual + 1}) .letter-box:nth-child(1)`);
+                                    if (newFirstBox) {
+                                        // Remove foco de todas as caixas
+                                        document.querySelectorAll('.letter-box').forEach(box => box.classList.remove('focused'));
+                                        newFirstBox.classList.add('focused');
+                                    }
+                                }, 150);
                             }
                         }
                     }, 100);
@@ -102,6 +112,12 @@ function handleKeyPress(event) {
         letraAtual--;
         currentBoxes[letraAtual].textContent = '';
         currentBoxes[letraAtual].classList.remove('letter-pop');
+        
+        // Atualiza foco para a caixa anterior
+        currentBoxes.forEach(box => box.classList.remove('focused'));
+        if (currentBoxes[letraAtual]) {
+            currentBoxes[letraAtual].classList.add('focused');
+        }
     } else if (key === 'ENTER' && letraAtual === palavraComprimento) {
         verificarPalavra();
     } else if (key.match(/^[A-Z]$/) && key.length === 1) { 
@@ -115,7 +131,32 @@ function handleKeyPress(event) {
             });
 
             letraAtual++;
+            
+            // Atualiza foco para a próxima caixa
+            currentBoxes.forEach(box => box.classList.remove('focused'));
+            if (letraAtual < palavraComprimento && currentBoxes[letraAtual]) {
+                currentBoxes[letraAtual].classList.add('focused');
+            }
         }
+    }
+}
+
+function handleBoxClick(rowIndex, boxIndex) {
+    if (gameOver) return;
+    
+    // Só permite clicar na linha atual
+    if (rowIndex !== tentativaAtual) return;
+    
+    // Atualiza a posição atual para a caixa clicada
+    letraAtual = boxIndex;
+    
+    // Remove indicação de foco de todas as caixas da linha atual
+    const currentBoxes = document.querySelectorAll(`#game-board .row:nth-child(${tentativaAtual + 1}) .letter-box`);
+    currentBoxes.forEach(box => box.classList.remove('focused'));
+    
+    // Adiciona indicação de foco na caixa selecionada
+    if (currentBoxes[boxIndex]) {
+        currentBoxes[boxIndex].classList.add('focused');
     }
 }
 
@@ -156,6 +197,11 @@ function criarTabuleiro() {
             const box = document.createElement('div');
             box.classList.add('letter-box');
             if (i === 0) box.classList.add('active-row'); // Destaque para a primeira linha
+            
+            // Adiciona event listener para clique na caixa
+            box.addEventListener('click', () => handleBoxClick(i, j));
+            box.style.cursor = 'pointer'; // Indica que é clicável
+            
             row.appendChild(box);
         }
         gameBoard.appendChild(row);
@@ -185,6 +231,15 @@ function inicializarJogo(referenciaPalavra = 0) {
 
     subtitle.innerHTML = `0/${palavras.length} concluídas`
     document.addEventListener('keydown', handleKeyPress);
+    
+    // Define foco na primeira caixa após criar o tabuleiro
+    setTimeout(() => {
+        const firstBox = document.querySelector(`#game-board .row:nth-child(1) .letter-box:nth-child(1)`);
+        if (firstBox) {
+            document.querySelectorAll('.letter-box').forEach(box => box.classList.remove('focused'));
+            firstBox.classList.add('focused');
+        }
+    }, 100);
 }
 
 function mostrarMensagem(msg) {
