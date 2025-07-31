@@ -1,4 +1,4 @@
-const palavras = [ "LIMPA", "REZAR", "SABAO"]
+const palavras = [ "LIMPA", "REZAR", "SABAO", "SEGUE", "TERCO", "BALDE"]
 const numTentativas = 6;
 const palavraComprimento = 5;
 
