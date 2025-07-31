@@ -66,7 +66,7 @@ function verificarPalavra() {
                         if (acertosNaPosicao === palavraComprimento) {
                             let texto = `Parabéns, você acertou a palavra!`
                             if ((indicePalavraAtual + 1) == palavras.length ) {
-                                texto = "Seja bem vindo à EQUIPE DO CANTO!"
+                                texto = "Você venceu! volte amanhã para mais palavras!"
                                 subtitle.innerHTML = `${palavras.length}/${palavras.length} concluídas`
                             }
                             mostrarMensagem(texto);
